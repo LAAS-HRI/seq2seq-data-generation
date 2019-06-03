@@ -1,13 +1,12 @@
 A,B,C,D,E,F,source,target
-Object,,,,,,give me the <A>,SELECT ?a WHERE { ?a hasName regex( <A> ) . ?a isGraspable true . ?a isReachableBy <receiver> }
-Object,,,,,,that <A>,SELECT ?a WHERE { ?a hasName regex( <A> ) . <sender> isPointingAt ?a }
-Object,,,,,,grab the <A>,SELECT ?a WHERE { ?a hasName regex( <A> ) . ?a isGraspable true . ?a isReachable <receiver> . ?a isVisibleBy <receiver> }
-Object,,,,,,hold me the <A>,SELECT ?a WHERE { ?a hasName regex( <A> ) . ?a isGraspable true . ?a isHeldBy <sender> }
-Object,,,,,,carry the <A>,SELECT ?a WHERE { ?a hasName regex( <A> ) . ?a isGraspable true . ?a isLiftable true }
-Color,Object,,,,,which objects are <A>,SELECT ?a WHERE { ?a isA Object . ?a hasColor regex( <A> ) }
-Color,Object,,,,,give me the <A> <B>,SELECT ?a WHERE { ?a hasName regex( <B> ) . ?a hasColor regex( <A> ) . ?a isGraspable true . ?a isReachableBy <receiver> }
-Color,Object,,,,,hold me the <A> <B>,SELECT ?a WHERE { ?a hasName regex( <B> ) . ?a hasColor regex( <A> ) . ?a isGraspable true . ?a isHeldBy <sender> }
-Color,Object,,,,,carry the <A> <B>,SELECT ?a WHERE { ?a hasName regex( <B> ) . ?a hasColor regex( <A> ) . ?a isGraspable true . ?a isHeldBy <sender> }
-Object,Support,,,,,which <A> are on the <B>,SELECT ?a WHERE { ?a hasName regex( <A> ) . ?b isSupport true . ?a isOn ?b } 
-Object,Support,,,,,give me the <A> that is on the <B>,SELECT ?a WHERE { ?a hasName regex( <A> ) . ?b hasName regex( <B> ) . ?b isSupport true . ?a isOn ?b . ?a isReachableBy <receiver> }
-Object,Container,,,,,which <A> are inside the <B>,SELECT ?a WHERE { ?a hasName regex( <A> ) . ?b  hasName regex( <B> ) . ?a isIn ?b }
+Object,Container,,,,, IsIn(object ?A - object ?B)
+Object,Object,,,,, IsOn(object ?A - object ?B)
+Object,location,,,,, IsOn(object ?A - location ?B)
+Object,Object,,,,, IsUnder(object ?A - object ?B)
+Object,Object,,,,, IsOnRightOf(object ?A - object ?B)
+Object,Object,,,,, isOnLeftOf(object ?A - object ?B)
+Object,Object,,,,, isClose(object ?A - object ?B)
+Object,location,,,,, isClose(object ?A - location ?B)
+Object,Object,,,,, isNextTo(object ?A - object ?B)
+Object,Object,,,,, isInFrontOf(object ?A - object ?B)
+Object,Object,,,,, isBehind(object ?A - object ?B)
