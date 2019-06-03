@@ -6,6 +6,7 @@ import numpy as np
 
 np.random.seed(123)  # for reproducibility
 
+
 def build_vocab(target_file_path, glove_file_path="res/data/glove/glove.6B.50d.txt", stop_list=50000):
     vocab = {}
     token_by_index = {}
@@ -40,6 +41,7 @@ def build_vocab(target_file_path, glove_file_path="res/data/glove/glove.6B.50d.t
                     tgt_vocab_file.write(str(token_by_index[i])+"\r\n")
                     src_vocab_file.write(str(token_by_index[i])+"\r\n")
 
+
 def load_templates(templates_file_path):
     variables_by_index = {}
     templates_by_index = {}
@@ -61,6 +63,7 @@ def load_templates(templates_file_path):
             index += 1
     return variables_by_index, templates_by_index
 
+
 def load_individuals(templates_file_path):
     individuals_map = {}
     with open(templates_file_path, "r") as csvfile:
@@ -77,6 +80,7 @@ def load_individuals(templates_file_path):
                         individuals_map[type].append(row[type])
     return individuals_map
 
+
 def generate_data_pairs(variables, templates, individuals, nb_examples_per_template=600):
     pairs = []
     already_generated = {}
@@ -92,6 +96,7 @@ def generate_data_pairs(variables, templates, individuals, nb_examples_per_templ
             already_generated[source] = True
     return pairs
 
+
 def generate_random_pair(variables, source, target, individuals):
     pairs = []
     if len(variables) > 0:
@@ -102,8 +107,10 @@ def generate_random_pair(variables, source, target, individuals):
             source = source.replace("<"+str(chr(65+i))+">", individuals[variables[i]][index])
     return source, target
 
+
 def pick_index(sequence):
     return int((np.random.random_sample() * len(sequence)) % len(sequence))
+
 
 def save(data_pairs, source_file_path, target_file_path, source_val_file_path, target_val_file_path):
     with open(source_file_path, 'w') as src_file:
@@ -125,6 +132,7 @@ def save(data_pairs, source_file_path, target_file_path, source_val_file_path, t
                     print ("Saved "+str(nb_train)+" pairs in training dataset : "+source_file_path+" "+target_file_path)
                     print ("Saved "+str(nb_val)+" pairs in validation dataset : "+source_val_file_path+" "+target_val_file_path)
 
+
 def main(templates_file_path="templates.csv", individuals_file_path="individuals.csv", max_examples_per_template=600, output_en_file="src-train.txt", output_sq_file="tgt-train.txt", src_val_file="src-val.txt", tgt_val_file="tgt-val.txt"):
     variables, templates = load_templates(templates_file_path)
     individuals = load_individuals(individuals_file_path)
@@ -133,6 +141,7 @@ def main(templates_file_path="templates.csv", individuals_file_path="individuals
     save(pairs, output_en_file, output_sq_file, src_val_file, tgt_val_file)
     build_vocab(output_sq_file)
     print ("Bye bye !")
+
 
 if __name__ == '__main__':
     parser = argparse.ArgumentParser(description='The dataset generator.')
