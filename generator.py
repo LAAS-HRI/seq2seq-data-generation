@@ -7,7 +7,7 @@ import numpy as np
 np.random.seed(123)  # for reproducibility
 
 
-def build_vocab(target_file_path, glove_file_path="res/data/glove/glove.6B.50d.txt", stop_list=50000):
+def build_vocab(target_file_path, glove_file_path, stop_list=50000):
     vocab = {}
     token_by_index = {}
     index = 0
@@ -133,13 +133,13 @@ def save(data_pairs, source_file_path, target_file_path, source_val_file_path, t
                     print ("Saved "+str(nb_val)+" pairs in validation dataset : "+source_val_file_path+" "+target_val_file_path)
 
 
-def main(templates_file_path="templates.csv", individuals_file_path="individuals.csv", max_examples_per_template=600, output_en_file="src-train.txt", output_sq_file="tgt-train.txt", src_val_file="src-val.txt", tgt_val_file="tgt-val.txt"):
+def main(templates_file_path="templates.csv", individuals_file_path="individuals.csv", max_examples_per_template=600, output_en_file="src-train.txt", output_sq_file="tgt-train.txt", src_val_file="src-val.txt", tgt_val_file="tgt-val.txt", glove_file_path="res/data/glove/glove.6B.50d.txt"):
     variables, templates = load_templates(templates_file_path)
     individuals = load_individuals(individuals_file_path)
     pairs = generate_data_pairs(variables, templates, individuals, max_examples_per_template)
     print (str(len(pairs))+" data pairs generated from "+str(len(templates))+" templates ! Enjoy !")
     save(pairs, output_en_file, output_sq_file, src_val_file, tgt_val_file)
-    build_vocab(output_sq_file)
+    build_vocab(output_sq_file, glove_file_path)
     print ("Bye bye !")
 
 
@@ -147,8 +147,9 @@ if __name__ == '__main__':
     parser = argparse.ArgumentParser(description='The dataset generator.')
     parser.add_argument("--templates", type=str, default="templates.csv", help='The templates file to use')
     parser.add_argument("--individuals", type=str, default="individuals.csv", help='The individuals to randomly pick')
+    parser.add_argument("--glove", type=str, default="res/data/glove/glove.6B.50d.txt", help='The path to the glove dataset')
     parser.add_argument("--examples_per_template", type=int, default=600, help="The max number of examples to generate per template")
 
     args = parser.parse_args()
     print ("Start generating dataset...")
-    main(templates_file_path=args.templates, individuals_file_path=args.individuals, max_examples_per_template=args.examples_per_template)
+    main(templates_file_path=args.templates, individuals_file_path=args.individuals, max_examples_per_template=args.examples_per_template, glove_file_path=args.glove)
