@@ -26,4 +26,3 @@ class DatasetTools:
             with open(str(out), 'w+') as itof:
                 for i in range(n):
                     itof.write('{}\n'.format(sorted_object_count[i][0]))
-
